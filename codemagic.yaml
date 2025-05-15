@@ -2,28 +2,20 @@ workflows:
   flutter-android:
     name: Flutter Android APK
     environment:
-      # 使用 Flutter 稳定版
       flutter: stable
       xcode: none  # 不构建 iOS
     cache:
-      # 缓存 Flutter 依赖和 Gradle 缓存，加快构建速度
-      cache_pull: true
-      paths:
+      cache_paths:
         - ~/.pub-cache
         - ~/.gradle
     scripts:
       - name: Install dependencies
         script: flutter pub get
       - name: Build APK
-        # 这里可以改为 --debug 或 --profile
         script: flutter build apk --debug -v
     artifacts:
-      - build/app/outputs/flutter-apk/app-release.apk
+      - build/app/outputs/flutter-apk/app-debug.apk
     publishing:
-      # 这里不做任何发布配置，构建后的 APK 会保存在 Artifacts
       email:
-        # 构建完成后，发邮件通知（可选）
         recipients:
           - 2937582423@qq.com
-        on_build_success: always
-        on_build_failed: always

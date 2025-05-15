@@ -3,7 +3,6 @@ workflows:
     name: Flutter Android APK
     environment:
       flutter: stable
-      xcode: none  # 不构建 iOS
     cache:
       cache_paths:
         - ~/.pub-cache

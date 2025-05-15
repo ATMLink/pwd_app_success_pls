@@ -5,13 +5,6 @@ workflows:
       # 使用 Flutter 稳定版
       flutter: stable
       xcode: none  # 不构建 iOS
-    triggering:
-      events:
-        - push
-      # 也可以加上 pull_request 等触发器
-      branches:
-        only:
-          - master
     cache:
       # 缓存 Flutter 依赖和 Gradle 缓存，加快构建速度
       cache_pull: true

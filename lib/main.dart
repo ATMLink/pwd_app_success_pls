@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const PasswordApp());
@@ -99,6 +100,18 @@ class _PasswordHomePageState extends State<PasswordHomePage> {
     });
   }
 
+  void _copyPasswordToClipboard() {
+    Clipboard.setData(ClipboardData(text: _password)).then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('密码已复制到剪贴板'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    });
+  }
+
+
   void _showError(String msg) {
     showDialog(
       context: context,
@@ -185,10 +198,30 @@ class _PasswordHomePageState extends State<PasswordHomePage> {
             const SizedBox(height: 8),
             OutlinedButton(onPressed: _clearFields, child: const Text('清空')),
             const SizedBox(height: 24),
-            Text(
-              _password.isEmpty ? '生成的密码会显示在此' : '密码：$_password',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            if (_password.isNotEmpty)
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '密码：$_password',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.copy),
+                    tooltip: '复制密码',
+                    onPressed: _copyPasswordToClipboard,
+                  ),
+                ],
+              )
+            else
+              const Text(
+                '生成的密码会显示在此',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
           ],
         ),
       ),
